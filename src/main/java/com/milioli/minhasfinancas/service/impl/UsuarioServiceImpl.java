@@ -1,5 +1,9 @@
 package com.milioli.minhasfinancas.service.impl;
 
+import java.util.Optional;
+
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.milioli.minhasfinancas.exceptions.RegraNegocioException;
@@ -19,14 +23,15 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	public Usuario autenticar(String email, String senha) {
-		// TODO Auto-generated method stub
+		Optional<Usuario> usuario = repository.findByEmail(email);
 		return null;
 	}
 
 	@Override
+	@Transactional
 	public Usuario salvar(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return null;
+		validarEmail(usuario.getEmail());
+		return repository.save(usuario);
 	}
 
 	@Override
