@@ -66,4 +66,11 @@ public class Lancamento {
 	@Enumerated(value = EnumType.STRING)
 	private StatusLancamento status;
 
+	// criação de entidade para o filtro do resource
+	public Lancamento(String descricao, Integer mes, Integer ano, Usuario usuario) {
+		this.descricao = descricao;
+		this.mes = mes;
+		this.ano = ano;
+		this.usuario = usuario;
+	}
 }

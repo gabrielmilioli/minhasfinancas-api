@@ -9,15 +9,25 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Objects;
+import java.util.Optional;
+
+import static java.util.Optional.ofNullable;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
 
-    private final UsuarioRepository repository;
+    private UsuarioRepository repository;
 
     public UsuarioServiceImpl(UsuarioRepository repository) {
         super();
         this.repository = repository;
+    }
+
+    @Override
+    public Usuario getById(Long id) {
+        return Optional.of(repository.findById(id))
+                .map(Optional::get)
+                .orElseThrow(() -> new RegraNegocioException(MSG_ERRO_USUARIO_NAO_ENCONTRADO));
     }
 
     @Override
