@@ -1,6 +1,5 @@
 package com.milioli.minhasfinancas;
 
-import org.hibernate.mapping.Any;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;

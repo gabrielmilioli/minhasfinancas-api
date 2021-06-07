@@ -27,9 +27,7 @@ public class LancamentoServiceImpl implements LancamentoService {
 
     @Override
     public Lancamento getById(Long id) {
-        return Optional.of(repository.findById(id))
-                .map(Optional::get)
-                .orElseThrow(() -> new RegraNegocioException(MSG_ERRO_LANCAMENTO_NAO_ENCONTRADO));
+        return repository.getById(id);
     }
 
     @Override
@@ -61,6 +59,13 @@ public class LancamentoServiceImpl implements LancamentoService {
 
     @Override
     @Transactional
+    public Lancamento atualizarStatus(Lancamento lancamento, StatusLancamento status) {
+        lancamento.setStatus(status);
+        return atualizar(lancamento);
+    }
+
+    @Override
+    @Transactional
     public void deletar(Lancamento lancamento) {
         Objects.requireNonNull(lancamento.getId());
         repository.delete(lancamento);
@@ -68,7 +73,7 @@ public class LancamentoServiceImpl implements LancamentoService {
 
     @Override
     public void validar(Lancamento lancamento) {
-        if (lancamento.getDescricao().isBlank()) {
+        if (Objects.isNull(lancamento.getDescricao()) || lancamento.getDescricao().isBlank()) {
             throw new RegraNegocioException(MSG_ERRO_INFORME_DESCRICAO_VALIDA);
         }
 

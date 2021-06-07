@@ -73,11 +73,10 @@ public class LancamentoResource {
     @PutMapping("{id}/atualiza-status")
     public ResponseEntity atualizarStatus(@PathVariable("id") Long id, @RequestBody AtualizaStatusLancamentoDto dto) {
         final Lancamento lancamento = service.getById(id);
-        lancamento.setStatus(Optional.ofNullable(dto.getStatus())
-                .map(StatusLancamento::valueOf).orElse(null));
 
         try {
-            service.atualizar(lancamento);
+            service.atualizarStatus(lancamento, Optional.ofNullable(dto.getStatus())
+                    .map(StatusLancamento::valueOf).orElse(null));
             return ResponseEntity.accepted().build();
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

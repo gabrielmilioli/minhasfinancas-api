@@ -15,7 +15,6 @@ public interface LancamentoService {
     String MSG_ERRO_INFORME_VALOR_VALIDO = "Informe um valor válido";
     String MSG_ERRO_INFORME_TIPO_VALIDO = "Informe um tipo válido";
     String MSG_ERRO_INFORME_STATUS_VALIDO = "Informe um status válido";
-    String MSG_ERRO_LANCAMENTO_NAO_ENCONTRADO = "Lançamento não encontrado";
 
     Lancamento getById(Long id);
 
@@ -30,5 +29,7 @@ public interface LancamentoService {
     void validar(Lancamento lancamento);
 
     BigDecimal obterSaldoPorUsuario(Long id);
+
+    Lancamento atualizarStatus(Lancamento lancamento, StatusLancamento status);
 
 }
