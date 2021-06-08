@@ -2,6 +2,7 @@ package com.milioli.minhasfinancas.resource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.milioli.minhasfinancas.TestResourceAnnotations;
+import com.milioli.minhasfinancas.exceptions.AutenticacaoException;
 import com.milioli.minhasfinancas.model.entity.Usuario;
 import com.milioli.minhasfinancas.resource.dto.UsuarioDto;
 import com.milioli.minhasfinancas.service.LancamentoService;
@@ -57,6 +58,27 @@ public class UsuarioResourceTest extends TestResourceAnnotations {
                 .andExpect(MockMvcResultMatchers.jsonPath("id").value(usuario.getId()))
                 .andExpect(MockMvcResultMatchers.jsonPath("nome").value(usuario.getNome()))
                 .andExpect(MockMvcResultMatchers.jsonPath("email").value(usuario.getEmail()));
+    }
+
+    @Test
+    public void deveRetornarBadRequestAoTentarAutenticarUmUsuarioInvalido() throws Exception {
+        UsuarioDto dto = UsuarioDto.builder()
+                .email(UsuarioTestUtils.EMAIL)
+                .senha(UsuarioTestUtils.SENHA)
+                .build();
+
+        Mockito.when(service.autenticar(UsuarioTestUtils.EMAIL, UsuarioTestUtils.SENHA)).thenThrow(AutenticacaoException.class);
+
+        String json = new ObjectMapper().writeValueAsString(dto);
+
+        final MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(AUTENTICAR_PATH)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+
+        mvc.perform(request)
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
 }
