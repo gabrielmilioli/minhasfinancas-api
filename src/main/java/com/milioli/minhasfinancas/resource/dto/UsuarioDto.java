@@ -1,13 +1,13 @@
 package com.milioli.minhasfinancas.resource.dto;
 
 import com.milioli.minhasfinancas.model.entity.Usuario;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UsuarioDto {
 
     private Long id;
