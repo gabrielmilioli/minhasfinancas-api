@@ -33,8 +33,8 @@ public class LancamentoServiceImpl implements LancamentoService {
     @Override
     @Transactional
     public Lancamento salvar(Lancamento lancamento) {
-        validar(lancamento);
         lancamento.setStatus(StatusLancamento.PENDENTE);
+        validar(lancamento);
         return repository.save(lancamento);
     }
 
@@ -106,9 +106,11 @@ public class LancamentoServiceImpl implements LancamentoService {
     @Override
     @Transactional(readOnly = true)
     public BigDecimal obterSaldoPorUsuario(Long idUsuario) {
-        final BigDecimal receitas = Optional.ofNullable(repository.obterSaldoPorTipoLancamentoEUsuario(idUsuario, TipoLancamento.RECEITA))
+        final BigDecimal receitas = Optional.ofNullable(repository
+                .obterSaldoPorTipoLancamentoEUsuarioEStatus(idUsuario, TipoLancamento.RECEITA, StatusLancamento.EFETIVADO))
                 .orElse(BigDecimal.ZERO);
-        final BigDecimal despesas = Optional.ofNullable(repository.obterSaldoPorTipoLancamentoEUsuario(idUsuario, TipoLancamento.DESPESA))
+        final BigDecimal despesas = Optional.ofNullable(repository
+                .obterSaldoPorTipoLancamentoEUsuarioEStatus(idUsuario, TipoLancamento.DESPESA, StatusLancamento.EFETIVADO))
                 .orElse(BigDecimal.ZERO);
 
         return receitas.subtract(despesas);

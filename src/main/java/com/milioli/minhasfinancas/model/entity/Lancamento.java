@@ -1,5 +1,6 @@
 package com.milioli.minhasfinancas.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.milioli.minhasfinancas.model.enums.StatusLancamento;
 import com.milioli.minhasfinancas.model.enums.TipoLancamento;
 import lombok.AllArgsConstructor;
@@ -36,6 +37,7 @@ public class Lancamento {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Usuario usuario;
 
     @Column(name = "valor")
